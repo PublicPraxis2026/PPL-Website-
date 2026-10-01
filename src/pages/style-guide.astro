@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Style guide | Public Praxis Lab" description="Internal visual-system review page for Public Praxis Lab." noIndex>
+  <section class="section section--dark">
+    <div class="container stack">
+      <p class="eyebrow">Stage 2 · temporary review route</p>
+      <h1>Design system</h1>
+      <p class="intro">A visual vocabulary for Public Praxis Lab: confident type, deep navy, open space and restrained rounded geometry.</p>
+      <a class="button button--light" href="#colours">Explore the palette</a>
+    </div>
+  </section>
+
+  <section class="section" id="colours">
+    <div class="container stack">
+      <div class="heading-group">
+        <h2>Colour</h2>
+        <p>Dark and light surfaces can alternate without changing the core reading colours.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch swatch--navy"><strong>Navy</strong><span>#0B2B40</span></div>
+        <div class="swatch swatch--deep"><strong>Deep navy</strong><span>#082235</span></div>
+        <div class="swatch swatch--slate"><strong>Slate</strong><span>#486171</span></div>
+        <div class="swatch swatch--ink"><strong>Ink</strong><span>#152D3C</span></div>
+        <div class="swatch swatch--soft"><strong>Soft white</strong><span>#F4F7F8</span></div>
+        <div class="swatch swatch--paper"><strong>White</strong><span>#FFFFFF</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="typography">
+    <div class="container stack">
+      <div class="heading-group">
+        <h2>Typography</h2>
+        <p>Self-hosted Manrope serves both display and reading text. Weight and scale provide the hierarchy.</p>
+      </div>
+      <div class="type-samples stack">
+        <div><p class="sample-label">Display · 44–80 px</p><p class="display-sample">Better Decisions.<br />Better Futures.</p></div>
+        <div><p class="sample-label">Section · 32–52 px</p><p class="section-sample">Ideas into action</p></div>
+        <div><p class="sample-label">Card · 24–32 px</p><p class="card-sample">Think Tank</p></div>
+        <div class="reading-sample"><p class="sample-label">Body · 16 px, 1.6 line height</p><p>This is sample text to show comfortable reading width and spacing. Short paragraphs and direct language will support the later content work.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="components">
+    <div class="container stack">
+      <div class="heading-group">
+        <h2>Links and buttons</h2>
+        <p>Links remain visibly underlined. Buttons have a minimum 48 px height and clear keyboard focus.</p>
+      </div>
+      <div class="controls">
+        <a class="button" href="#cards">Primary action</a>
+        <a class="button button--outline" href="#cards">Outlined action</a>
+        <a href="#cards">Text link to card examples</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="cards">
+    <div class="container stack">
+      <div class="heading-group">
+        <h2>Sections and cards</h2>
+        <p>Wide section containers hold smaller reading measures and cards. Layouts stack naturally at narrow widths.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card stack">
+          <h3>Light card</h3>
+          <p>A clear surface for concise editorial content, with a quiet border and rounded corners.</p>
+          <a href="#colours">Review colours</a>
+        </article>
+        <article class="card card--dark stack">
+          <h3>Dark card</h3>
+          <p>The navy surface carries white text for emphasis beside lighter content.</p>
+          <a href="#typography">Review typography</a>
+        </article>
+      </div>
+      <a class="button button--light" href="#components">Light action on navy</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--reading stack">
+      <h2>Spacing and shape</h2>
+      <p>Spacing follows a 4 px base: 4, 8, 12, 16, 24, 32, 48, 64 and 96 px. Cards use a 16 px radius; compact surfaces use 8 px; actions use a pill shape.</p>
+      <p>This review page uses no production photography. Image treatment will be defined with real assets in the relevant page stages.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .eyebrow, .sample-label {
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .intro { max-width: 42rem; font-size: var(--text-lg); }
+  .heading-group { max-width: var(--container-reading); }
+  .heading-group p { margin-block-start: var(--space-4); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--space-4); }
+  .swatch { display: flex; flex-direction: column; justify-content: end; min-height: 9rem; padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
+  .swatch span { font-size: var(--text-sm); }
+  .swatch--navy { color: white; background: var(--color-navy); }
+  .swatch--deep { color: white; background: var(--color-navy-deep); }
+  .swatch--slate { color: white; background: var(--color-slate); }
+  .swatch--ink { color: white; background: var(--color-ink); }
+  .swatch--soft { background: var(--color-soft); }
+  .swatch--paper { background: var(--color-paper); }
+  .type-samples { max-width: var(--container-reading); }
+  .sample-label { margin-block-end: var(--space-2); color: var(--color-slate); }
+  .display-sample { font-size: var(--heading-xl); font-weight: 800; line-height: 1.12; letter-spacing: -0.035em; }
+  .section-sample { font-size: var(--heading-md); font-weight: 800; line-height: 1.12; letter-spacing: -0.035em; }
+  .card-sample { font-size: var(--heading-sm); font-weight: 800; line-height: 1.12; letter-spacing: -0.035em; }
+  .controls { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-6); }
+  .card-grid { display: grid; gap: var(--space-6); }
+  @media (min-width: 48rem) {
+    .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

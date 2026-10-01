@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex = false } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>document.documentElement.classList.add('has-js');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b2b40" />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/manrope-variable.ttf" as="font" type="font/ttf" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Public Praxis Lab" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <SiteHeader currentPath={Astro.url.pathname} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-layout">
+        <div class="footer-identity">
+          <p class="footer-name">Public Praxis Lab</p>
+          <p class="footer-placeholder-label">Organisation description placeholder</p>
+          <p>Final footer introduction has not yet been supplied.</p>
+        </div>
+
+        <nav class="footer-navigation" aria-label="Footer navigation">
+          <p class="footer-heading">Navigation</p>
+          <ul>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/services/">Services</a></li>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href="/work-with-us/">Work with us</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </nav>
+
+        <section class="footer-contact" aria-labelledby="footer-contact-heading">
+          <h2 id="footer-contact-heading" class="footer-heading">Contact <span>· details pending</span></h2>
+          <address>
+            <p>Email address placeholder</p>
+            <p>Telephone number placeholder</p>
+            <p>Postal address placeholder</p>
+          </address>
+        </section>
+
+        <div class="footer-meta">
+          <p class="footer-heading">Information</p>
+          <p><a href="/privacy/">Privacy</a></p>
+          <p><a href="/accessibility/">Accessibility</a></p>
+          <p class="footer-social">Social links <span>· none supplied</span></p>
+          <p class="footer-copyright">Copyright details placeholder</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

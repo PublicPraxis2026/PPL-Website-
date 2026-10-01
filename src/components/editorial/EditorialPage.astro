@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  page: CollectionEntry<'pages'>;
+}
+
+const { page } = Astro.props;
+const { callout, cta, eyebrow, image, introduction, title } = page.data;
+---
+
+<section class="editorial-hero section--dark" aria-labelledby="page-heading">
+  <div class="page-width editorial-hero__inner">
+    <p class="editorial-eyebrow">{eyebrow}</p>
+    <h1 id="page-heading">{title}</h1>
+    <p class="editorial-introduction">{introduction}</p>
+  </div>
+</section>
+
+<section class="editorial-content section">
+  <div class="page-width editorial-content__layout">
+    <article class="editorial-prose">
+      <slot />
+    </article>
+
+    {image && (
+      <figure class="editorial-media">
+        <div class="editorial-media__placeholder" role="img" aria-label={`${image.label}; final image not supplied`}>
+          <span>{image.label}</span>
+        </div>
+        <figcaption>{image.caption}</figcaption>
+      </figure>
+    )}
+  </div>
+</section>
+
+{callout && (
+  <aside class="editorial-callout section--soft" aria-labelledby="callout-heading">
+    <div class="page-width editorial-callout__inner">
+      <p class="editorial-eyebrow editorial-eyebrow--dark">Content note</p>
+      <h2 id="callout-heading">{callout.heading}</h2>
+      <p>{callout.text}</p>
+    </div>
+  </aside>
+)}
+
+{cta && (
+  <section class="editorial-cta section--dark" aria-labelledby="cta-heading">
+    <div class="page-width editorial-cta__inner">
+      <div>
+        <p class="editorial-eyebrow">Next step</p>
+        <h2 id="cta-heading">{cta.label}</h2>
+      </div>
+      <p class="editorial-cta__placeholder">{cta.note}</p>
+    </div>
+  </section>
+)}
+
+<style>
+  .editorial-hero { padding-block: clamp(var(--space-12), 9vw, var(--space-24)); }
+  .editorial-hero__inner { max-width: 70rem; }
+  .editorial-eyebrow { margin-block-end: var(--space-3); color: #d7e3e9; font-size: var(--text-sm); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .editorial-eyebrow--dark { color: var(--color-slate); }
+  .editorial-introduction { max-width: 44rem; margin-block-start: var(--space-6); font-size: var(--text-lg); }
+  .editorial-content__layout { display: grid; gap: clamp(var(--space-8), 6vw, var(--space-16)); align-items: start; }
+  .editorial-prose { max-width: var(--container-reading); }
+  .editorial-prose :global(h2) { margin-block: var(--space-12) var(--space-4); }
+  .editorial-prose :global(h2:first-child) { margin-block-start: 0; }
+  .editorial-prose :global(h3) { margin-block: var(--space-8) var(--space-3); }
+  .editorial-prose :global(ul), .editorial-prose :global(ol) { display: grid; gap: var(--space-3); margin-block: var(--space-6); padding-inline-start: 1.25rem; }
+  .editorial-prose :global(blockquote) { margin: var(--space-8) 0; padding: var(--space-6); border-inline-start: 4px solid var(--color-slate); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--color-soft); font-size: var(--text-lg); font-weight: 700; }
+  .editorial-media { display: grid; gap: var(--space-3); min-width: 0; margin: 0; }
+  .editorial-media__placeholder { display: grid; align-items: end; min-height: 18rem; padding: var(--space-6); border: 2px dashed var(--color-slate); border-radius: var(--radius-card); background: #dbe4e8; color: var(--color-ink); }
+  .editorial-media__placeholder span { width: fit-content; max-width: 100%; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-paper); font-size: var(--text-sm); font-weight: 800; line-height: 1.4; }
+  .editorial-media figcaption { padding-inline-start: var(--space-3); border-inline-start: 2px solid var(--color-border); color: var(--color-slate); font-size: var(--text-sm); }
+  .editorial-callout { padding-block: clamp(var(--space-12), 7vw, var(--space-16)); }
+  .editorial-callout__inner { max-width: var(--container-reading); }
+  .editorial-callout h2 { margin-block-end: var(--space-4); }
+  .editorial-cta { padding-block: clamp(var(--space-12), 7vw, var(--space-16)); }
+  .editorial-cta__inner { display: grid; gap: var(--space-8); align-items: end; padding: clamp(var(--space-6), 5vw, var(--space-12)); border-radius: var(--radius-card); background: var(--color-navy-deep); }
+  .editorial-cta__placeholder { width: fit-content; margin: 0; padding: var(--space-3) var(--space-6); border: 1px dashed currentColor; border-radius: var(--radius-pill); font-size: var(--text-sm); font-weight: 800; text-align: center; }
+  @media (min-width: 48rem) {
+    .editorial-content__layout { grid-template-columns: minmax(0, 1.15fr) minmax(16rem, .85fr); }
+    .editorial-media__placeholder { min-height: 24rem; }
+    .editorial-cta__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

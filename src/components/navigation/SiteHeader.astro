@@ -1,0 +1,150 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const normalizePath = (path: string) => path.replace(/\/+$/, '') || '/';
+const isCurrent = (path: string) => normalizePath(currentPath) === normalizePath(path);
+---
+
+<header class="site-header">
+  <div class="page-width header-inner">
+    <a class="site-name" href="/" aria-label="Public Praxis Lab, home" aria-current={isCurrent('/') ? 'page' : undefined}>Public Praxis Lab</a>
+
+    <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Menu</span>
+    </button>
+
+    <nav class="primary-navigation" id="primary-navigation" aria-label="Primary">
+      <ul class="nav-list">
+        <li><a href="/about/" aria-current={isCurrent('/about/') ? 'page' : undefined}>About</a></li>
+        <li>
+          <details class="nav-group" name="primary-nav-group">
+            <summary>Services</summary>
+            <ul class="nav-sublist">
+              <li><a href="/services/" aria-current={isCurrent('/services/') ? 'page' : undefined}>Services overview</a></li>
+              <li><a href="/services/corporate/" aria-current={isCurrent('/services/corporate/') ? 'page' : undefined}>Corporate</a></li>
+              <li><a href="/services/non-corporate/" aria-current={isCurrent('/services/non-corporate/') ? 'page' : undefined}>Non-corporate</a></li>
+              <li><a href="/services/case-studies/" aria-current={isCurrent('/services/case-studies/') ? 'page' : undefined}>Case studies</a></li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <details class="nav-group" name="primary-nav-group">
+            <summary>Insights</summary>
+            <ul class="nav-sublist">
+              <li><a href="/insights/" aria-current={isCurrent('/insights/') ? 'page' : undefined}>Insights overview</a></li>
+              <li><a href="/insights/reports/" aria-current={isCurrent('/insights/reports/') ? 'page' : undefined}>Reports &amp; briefings</a></li>
+              <li><a href="/insights/guides/" aria-current={isCurrent('/insights/guides/') ? 'page' : undefined}>Practical guides</a></li>
+              <li><a href="/insights/podcast/" aria-current={isCurrent('/insights/podcast/') ? 'page' : undefined}>Podcast</a></li>
+              <li><a href="/insights/journal/" aria-current={isCurrent('/insights/journal/') ? 'page' : undefined}>Journal</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="/work-with-us/" aria-current={isCurrent('/work-with-us/') ? 'page' : undefined}>Work with us</a></li>
+        <li><a href="/contact/" aria-current={isCurrent('/contact/') ? 'page' : undefined}>Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navigation = header?.querySelector<HTMLElement>('.primary-navigation');
+  const groups = [...(navigation?.querySelectorAll<HTMLDetailsElement>('.nav-group') ?? [])];
+  const mobile = window.matchMedia('(max-width: 61.99rem)');
+
+  function closeMenu(restoreFocus = false) {
+    if (!toggle) return;
+    const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', 'false');
+    groups.forEach((group) => { group.open = false; });
+    if (restoreFocus && wasOpen) toggle.focus();
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closeMenu();
+    else toggle.setAttribute('aria-expanded', 'true');
+  });
+
+  groups.forEach((group) => {
+    group.addEventListener('toggle', () => {
+      if (!group.open) return;
+      groups.forEach((other) => {
+        if (other !== group) other.open = false;
+      });
+    });
+  });
+
+  header?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const openGroup = groups.find((group) => group.open && group.contains(document.activeElement));
+    if (openGroup) {
+      openGroup.open = false;
+      openGroup.querySelector('summary')?.focus();
+      event.preventDefault();
+    } else if (mobile.matches && toggle?.getAttribute('aria-expanded') === 'true') {
+      closeMenu(true);
+      event.preventDefault();
+    }
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (header?.contains(event.target as Node)) return;
+    groups.forEach((group) => { group.open = false; });
+    if (mobile.matches) closeMenu();
+  });
+
+  navigation?.addEventListener('focusout', (event) => {
+    // Safari does not focus links on click, so relatedTarget is null; closing here would cancel the click.
+    if (!event.relatedTarget || navigation.contains(event.relatedTarget as Node)) return;
+    if (mobile.matches && toggle === event.relatedTarget) return;
+    groups.forEach((group) => { group.open = false; });
+  });
+
+  mobile.addEventListener('change', () => closeMenu());
+</script>
+
+<style>
+  .site-header { position: relative; z-index: 5; padding-block: var(--space-4); border-block-end: 1px solid var(--color-border); background: var(--color-paper); }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
+  .site-name { max-width: 14rem; color: var(--color-navy); font-size: 1.125rem; font-weight: 800; line-height: 1.2; text-decoration: none; }
+  .site-name:hover { text-decoration: underline; }
+  .menu-toggle { display: none; align-items: center; gap: var(--space-2); min-height: 3rem; padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper); color: var(--color-navy); font-weight: 800; cursor: pointer; }
+  .menu-icon { display: grid; gap: 4px; width: 1.25rem; }
+  .menu-icon span { height: 2px; border-radius: 1px; background: currentColor; }
+  .primary-navigation { width: 100%; }
+  .nav-list, .nav-sublist { margin: 0; padding: 0; list-style: none; }
+  .nav-list { display: flex; flex-direction: column; gap: var(--space-1); }
+  .nav-list > li > a, .nav-group > summary { display: flex; align-items: center; min-height: 3rem; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); color: var(--color-navy); font-size: var(--text-sm); font-weight: 800; text-decoration: none; cursor: pointer; }
+  .nav-list > li > a:hover, .nav-group > summary:hover, .nav-group[open] > summary { background: var(--color-soft); }
+  .nav-group > summary { justify-content: space-between; gap: var(--space-2); list-style: none; }
+  .nav-group > summary::-webkit-details-marker { display: none; }
+  .nav-group > summary::after { content: ''; width: 0.55rem; height: 0.55rem; border-inline-end: 2px solid currentColor; border-block-end: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+  .nav-group[open] > summary::after { transform: rotate(225deg) translateY(-2px); }
+  .nav-sublist { padding: var(--space-1) var(--space-3) var(--space-3); }
+  .nav-sublist a { display: flex; align-items: center; min-height: 2.75rem; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); color: var(--color-navy); font-size: var(--text-sm); text-decoration: none; }
+  .nav-sublist a:hover { background: var(--color-soft); text-decoration: underline; }
+  .nav-list > li > a[aria-current="page"], .nav-sublist a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 0.15em; text-underline-offset: 0.18em; }
+  :global(.has-js) .menu-toggle { display: inline-flex; }
+  :global(.has-js) .menu-toggle[aria-expanded="false"] + .primary-navigation { display: none; }
+
+  @media (min-width: 62rem) {
+    .header-inner { flex-wrap: nowrap; }
+    .site-name { flex: 0 0 auto; }
+    .primary-navigation { width: auto; }
+    .nav-list { flex-direction: row; align-items: center; gap: var(--space-1); }
+    .nav-group { position: relative; }
+    .nav-group > summary { gap: var(--space-3); }
+    .nav-sublist { position: absolute; z-index: 10; top: calc(100% + var(--space-2)); left: 0; min-width: 14rem; padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-paper); box-shadow: 0 12px 28px rgb(8 34 53 / 13%); }
+    :global(.has-js) .menu-toggle { display: none; }
+    :global(.has-js) .menu-toggle[aria-expanded="false"] + .primary-navigation { display: block; }
+  }
+  @media (max-width: 61.99rem) {
+    .primary-navigation { border-block-start: 1px solid var(--color-border); padding-block-start: var(--space-3); }
+  }
+</style>

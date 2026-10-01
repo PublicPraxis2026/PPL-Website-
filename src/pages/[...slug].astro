@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import EditorialPage from '../components/editorial/EditorialPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+
+  return pages.map((page) => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<BaseLayout title={`${page.data.title} | Public Praxis Lab`} description={page.data.introduction}>
+  <EditorialPage page={page}>
+    <Content />
+  </EditorialPage>
+</BaseLayout>
