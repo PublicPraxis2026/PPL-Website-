@@ -1,6 +1,6 @@
 # Public Praxis Lab
 
-Static Astro + TypeScript website for Public Praxis Lab. The implementation covers Stages 1–18: the homepage, responsive navigation and footer, fourteen secondary pages, metadata and production header configuration. Final content and assets remain labelled placeholders. Cloudflare Pages is the intended deployment target, and WCAG 2.2 AA is the accessibility target. See [current status](docs/STATUS.md) for verification and outstanding acceptance items.
+Static Astro + TypeScript website for Public Praxis Lab. The implementation covers Stages 1–18: the homepage, responsive navigation and footer, fourteen secondary pages, metadata and production header configuration. Final content and assets remain labelled placeholders. Cloudflare Pages is the intended deployment target, and WCAG 2.2 AA is the accessibility target. 
 
 ## Prerequisites
 
