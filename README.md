@@ -45,9 +45,4 @@ Native navigation disclosures have one small inline JavaScript module for mobile
 
 Set the build environment variable `SITE_URL` to the confirmed public HTTPS origin to generate absolute canonical URLs, sitemap locations and the robots sitemap directive. Without it, the build intentionally omits host-specific values. Cloudflare Pages security headers are configured in `public/_headers`; their deployed enforcement still requires verification.
 
-## Project process
-
-Read [AGENTS.md](AGENTS.md), [current status](docs/STATUS.md), [handoff](docs/HANDOFF.md), [decisions](docs/DECISIONS.md), and the authorised stage in the [implementation plan](docs/IMPLEMENTATION_PLAN.md). Domain guidance covers [project scope](docs/PROJECT.md), [design](docs/DESIGN.md), [architecture](docs/ARCHITECTURE.md), [accessibility](docs/ACCESSIBILITY.md), [security](docs/SECURITY.md), and [content](docs/CONTENT.md). The [reference inventory](docs/design-reference/README.md) describes the supplied screenshots.
-
-This folder is not currently a Git repository. No commits or Git initialisation were part of Stage 1.
 # PPL-Website-

@@ -40,3 +40,6 @@ CLAUDE.local.md
 .gemini/
 .continue/
 .github/copilot-instructions.md
+
+# Agent and project docs (local only)
+docs/
