@@ -43,6 +43,6 @@ The build produces sixteen HTML routes: the homepage, fourteen secondary pages a
 
 Native navigation disclosures have one small inline JavaScript module for mobile-menu behaviour, Escape handling and focus return. Navigation remains available without JavaScript. Fonts and other assets are self-hosted; the site has no forms, analytics, tracking or backend.
 
-Set the build environment variable `SITE_URL` to the confirmed public HTTPS origin to generate absolute canonical URLs, sitemap locations and the robots sitemap directive. Without it, the build intentionally omits host-specific values. Cloudflare Pages security headers are configured in `public/_headers`; their deployed enforcement still requires verification.
+Set the build environment variable `SITE_URL` to the confirmed public HTTPS origin to generate absolute canonical URLs, sitemap locations and the robots sitemap directive. Without it, the build intentionally omits host-specific values. Cloudflare security headers (Workers static assets `_headers`) are configured in `public/_headers`; their deployed enforcement still requires verification.
 
 # PPL-Website-

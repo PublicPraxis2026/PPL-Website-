@@ -1,0 +1,9 @@
+{
+  // Static Astro build served as Workers static assets (D017). No server code.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ppl-website",
+  "compatibility_date": "2026-10-05",
+  "assets": {
+    "directory": "./dist"
+  }
+}
